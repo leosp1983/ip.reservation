@@ -1,0 +1,14 @@
+- hosts: hostname
+  gather_facts: no
+
+  tasks:
+
+  - name: Excluindo a reserva
+    include_role:
+      name: delete
+    when: delete == "SIM"
+
+  - name: Reservando o IP
+    include_role:
+      name: reserva
+    when: delete == "NAO"

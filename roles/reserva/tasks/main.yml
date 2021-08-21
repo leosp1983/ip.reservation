@@ -1,0 +1,13 @@
+- shell: curl -k 'https://ipam.com.br/api/getFreeIP.php?apiapp={{api}}&apitoken={{token}}&subnetId={{vlan}}&host={{hostname}}&user={{tower_user_name}}'
+  args:
+    warn: false
+  register: ip
+
+- name: A reserva falhou
+  debug: 
+    var: ip.stdout
+  failed_when: ip.stdout.find ("Host") != -1
+
+- name: Seu ip é
+  debug: 
+    msg: "{{ ip.stdout | regex_findall('\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b') }}"
